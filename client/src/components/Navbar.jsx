@@ -28,15 +28,22 @@ const Navbar = () => {
   const closeCoursesModal = () => setIsCoursesModalOpen(false);
 
   return (
-    <nav className="bg-white shadow-md p-4">
+    <nav className="bg-white shadow-lg py-4 px-6">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-2xl font-bold text-black">
+        {/* Logo o Nombre del blog */}
+        <div className="text-2xl font-semibold text-gray-800">
           StudentBlog
         </div>
+
+        {/* Botón de usuario con dropdown */}
         <div className="relative">
-          <button onClick={toggleDropdown} className="focus:outline-none">
-            <FontAwesomeIcon icon={faUser} className="text-black text-2xl" />
+          <button
+            onClick={toggleDropdown}
+            className="focus:outline-none flex items-center space-x-2 p-2 bg-gray-100 hover:bg-gray-200 rounded-full"
+          >
+            <FontAwesomeIcon icon={faUser} className="text-gray-700 text-2xl" />
           </button>
+          {/* DropdownMenu se abre desde el botón */}
           <DropdownMenu
             isOpen={isDropdownOpen}
             onClose={() => setIsDropdownOpen(false)}
@@ -45,6 +52,8 @@ const Navbar = () => {
           />
         </div>
       </div>
+
+      {/* Profile y Courses Modals */}
       <ProfileModal isOpen={isProfileModalOpen} onClose={closeProfileModal} />
       <CoursesModal isOpen={isCoursesModalOpen} onClose={closeCoursesModal} />
     </nav>
