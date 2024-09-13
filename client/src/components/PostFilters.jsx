@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CreatePostModal from './CreatePostModal';
 import PostPreview from './PostPreview';
 import PostModal from './PostModal';
-import { courses, teachers, posts as initialPosts } from '../data/data.js';
+import { courses, teachers, posts as initialPosts, users } from '../data/data.js';
 
 const PostFilters = () => {
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
@@ -11,31 +11,49 @@ const PostFilters = () => {
   const [allPosts, setAllPosts] = useState(initialPosts);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Estado del sidebar
+  const [selectedUser, setSelectedUser] = useState(null); // Usuario seleccionado para el sidebar
 
+  // Abrir el modal de creación de post
   const handleOpenCreatePostModal = () => {
     setIsCreatePostModalOpen(true);
   };
 
+  // Cerrar el modal de creación de post
   const handleCloseCreatePostModal = () => {
     setIsCreatePostModalOpen(false);
   };
 
+  // Abrir modal para ver el post completo
   const handlePostClick = (post) => {
     setSelectedPost(post);
     setIsPostModalOpen(true);
   };
 
+  // Cerrar modal de post completo
   const handleClosePostModal = () => {
     setIsPostModalOpen(false);
   };
 
-
-  const handleCreatePost = (newPost) => {
-    setAllPosts([newPost, ...allPosts]); 
-    setIsCreatePostModalOpen(false); 
+  // Manejar clic en usuario para abrir el sidebar
+  const handleUserClick = (userId) => {
+    const user = users.find((u) => u.id === userId);
+    setSelectedUser(user);
+    setIsSidebarOpen(true); // Abre el sidebar con la info del usuario
   };
 
-  
+  // Cerrar sidebar
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false); // Cierra el sidebar
+  };
+
+  // Manejar creación de un nuevo post
+  const handleCreatePost = (newPost) => {
+    setAllPosts([newPost, ...allPosts]);
+    setIsCreatePostModalOpen(false);
+  };
+
+  // Filtrar posts por curso y maestro seleccionados
   const filteredPosts = allPosts.filter((post) => {
     return (
       (selectedCourse === '' || post.course?.id === parseInt(selectedCourse)) &&
@@ -86,14 +104,15 @@ const PostFilters = () => {
         </button>
       </div>
 
-      {/* Mostrar los posts filtrados */}
+      {/* Mostrar posts filtrados */}
       <div className="space-y-4">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <PostPreview
               key={post.id}
               post={post}
-              onClick={() => handlePostClick(post)} 
+              onPostClick={handlePostClick}
+              onUserClick={handleUserClick} // Maneja clic en el usuario para abrir sidebar
             />
           ))
         ) : (
@@ -105,16 +124,43 @@ const PostFilters = () => {
       <CreatePostModal
         isOpen={isCreatePostModalOpen}
         onClose={handleCloseCreatePostModal}
-        onCreatePost={handleCreatePost} 
+        onCreatePost={handleCreatePost}
       />
 
       {/* Modal para mostrar el post completo */}
       {isPostModalOpen && selectedPost && (
         <PostModal
           post={selectedPost}
-          onClose={handleClosePostModal} 
+          onClose={handleClosePostModal}
+          onUserClick={handleUserClick} // Maneja clic en usuario dentro del modal
         />
       )}
+
+      {/* Sidebar para mostrar información del usuario */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg transition-transform transform ${
+          isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="p-4 flex justify-between items-center">
+          <h2 className="text-xl font-bold">Perfil de Usuario</h2>
+          <button onClick={handleCloseSidebar} className="text-gray-500 hover:text-gray-700">
+            X
+          </button>
+        </div>
+        {selectedUser && (
+          <div className="p-4">
+            <p><strong>Nombre:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
+            <p><strong>Email:</strong> {selectedUser.email}</p>
+            <p><strong>Cursos Aprobados:</strong></p>
+            <ul className="list-disc pl-6">
+              {selectedUser.approvedCourses.map((course) => (
+                <li key={course.id}>{course.name} - {course.credits} créditos</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
