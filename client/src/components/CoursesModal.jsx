@@ -42,7 +42,6 @@ const CoursesModal = ({ isOpen, onClose }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 className="text-3xl font-bold mb-6 text-gray-900">Mis Cursos</h2>
         
-        {/* Display selected courses */}
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-4">Cursos Aprobados:</h3>
           <div className="space-y-4">
@@ -63,7 +62,6 @@ const CoursesModal = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Dropdown to add courses */}
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
