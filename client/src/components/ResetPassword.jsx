@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../data/dataRE';
+import { resetPassword } from '../data/data'; 
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const [registroAcademico, setRegistroAcademico] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    const success = resetPassword(email, registroAcademico);
+
+    const success = resetPassword(email, registroAcademico, newPassword);
   
     if (success) {
       navigate('/'); 
@@ -46,6 +48,17 @@ const ResetPassword = () => {
               id="registroAcademico"
               value={registroAcademico}
               onChange={(e) => setRegistroAcademico(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
+            <input
+              type="password"
+              id="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />

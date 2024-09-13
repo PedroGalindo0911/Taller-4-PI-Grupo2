@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { users2 } from '../data/dataL'; 
+import { getUsers } from '../data/data'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const user = users2.find(
+    const user = getUsers().find(
       (user) => user.email === email && user.password === password
     );
 

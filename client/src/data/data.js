@@ -52,3 +52,42 @@ export const commentsData = {
     { id: 1, content: 'Interesante perspectiva, gracias por compartir.', postId: 2, userId: 1 },
   ],
 };
+
+//login
+
+export const users2 = [
+  {
+    email: 'test@example.com',
+    password: '1234',
+  },
+
+];
+
+//registro y resetear contraseña
+
+let regis = [
+  {
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    email: 'juan.perez@example.com',
+    password: 'contraseña123',
+    registroAcademico: '123456'
+  }
+];
+
+export const addUser = (user) => {
+  regis.push(user);
+};
+
+export const getUsers = () => regis;
+
+export const resetPassword = (email, registroAcademico, newPassword) => {
+  const user = regis.find(user => user.email === email && user.registroAcademico === registroAcademico);
+  
+  if (user) {
+    user.password = newPassword; 
+    return true;
+  }
+  
+  return false;
+};

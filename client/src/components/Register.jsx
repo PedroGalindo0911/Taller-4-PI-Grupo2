@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { addUser, getUsers } from '../data/dataR';
+import { addUser, getUsers } from '../data/data';
 
 const Register = () => {
   const [nombre, setNombre] = useState('');
