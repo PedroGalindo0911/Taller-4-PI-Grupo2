@@ -19,6 +19,10 @@ const {
   getLoggedUser,
 } = require('../controllers/loggeduserController');
 
+const {
+  getComentarios,
+} = require('../controllers/comentariosController');
+
 
 router.post('/login', login);
 
@@ -32,6 +36,8 @@ router.get('/posts/:id', getPosts);
 
 router.get('/logged-user', getLoggedUser);
 
+router.get('/comentarios', getComentarios);
+
 
 /* 
 router.post('/crear-post', createPost);
@@ -40,9 +46,7 @@ router.get('/filtrar-por-curso/:curso', filtrarCursos)
 
 router.get('/filtrar-por-catedratico/:catedratico', filtrarCatedratico)
 
-router.get('/logged-user', getLoggedUser);
 
-router.get('/comentarios', getComentarios);
 
 router.get('/cursos', getCursos);
 
