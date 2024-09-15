@@ -7,21 +7,36 @@ const {
   resetPassword,
 } = require('../controllers/userController');
 
+const {
+  getCatedratico,
+  postCatedratico,
+} = require('../controllers/catedraticoController');
+
+const {
+  getPosts,
+} = require('../controllers/postController');
+
 router.post('/login', login);
 
 router.post('/register', register);
 
 router.put('/reset-password', resetPassword);
+
+router.get('/catedratico/:id', getCatedratico);
+
+router.post('/catedratico', postCatedratico);
+
+router.get('/posts', getPosts);
 /* 
 router.post('/crear-post', createPost);
 
-router.get('/catedratico', getCatedratico);
+
 
 router.get('/logged-user', getLoggedUser);
 
 router.get('/cursos', getCursos)
 
-router.get('/posts', getPosts)
+
 
 router.get('/filtrar-por-curso/:curso', filtrarCursos)
 
