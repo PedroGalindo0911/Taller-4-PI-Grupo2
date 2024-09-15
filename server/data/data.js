@@ -1,5 +1,5 @@
 // Usuarios
-export const users = [
+module.exports.users = [
   {
     id: 1,
     firstName: 'Pedro',
@@ -14,7 +14,7 @@ export const users = [
 ];
 
 // Cursos
-export const courses = [
+module.exports.courses = [
   { id: 1, name: 'Matemáticas Avanzadas', credits: 4, teacherId: 1 },
   { id: 2, name: 'Historia del Arte', credits: 3, teacherId: 2 },
   { id: 3, name: 'Programación Web', credits: 5, teacherId: 3 },
@@ -30,37 +30,60 @@ export const courses = [
 ];
 
 // Maestros
-export const teachers = [
+module.exports.teachers = [
   { id: 1, name: 'Dr. Martínez' },
   { id: 2, name: 'Prof. López' },
   { id: 3, name: 'Sra. Fernández' },
 ];
 
 // Posts (ahora con referencia a curso y maestro)
-export const posts = [
-  { id: 1, title: 'Primer Post', content: 'Este es el contenido del primer post.', course: { id: 1, name: 'Matemáticas Avanzadas' }, teacher: { id: 1, name: 'Dr. Martínez' }, userId: 1 },
-  { id: 2, title: 'Segundo Post', content: 'Este es el contenido del segundo post.', course: { id: 3, name: 'Programación Web' }, teacher: { id: 3, name: 'Sra. Fernández' }, userId: 1 },
+module.exports.posts = [
+  {
+    id: 1,
+    title: 'Primer Post',
+    content: 'Este es el contenido del primer post.',
+    course: { id: 1, name: 'Matemáticas Avanzadas' },
+    teacher: { id: 1, name: 'Dr. Martínez' },
+    userId: 1,
+  },
+  {
+    id: 2,
+    title: 'Segundo Post',
+    content: 'Este es el contenido del segundo post.',
+    course: { id: 3, name: 'Programación Web' },
+    teacher: { id: 3, name: 'Sra. Fernández' },
+    userId: 1,
+  },
 ];
 
 // Comentarios (con referencia al postId y userId)
-export const commentsData = {
+module.exports.commentsData = {
   1: [
     { id: 1, content: 'Gran post, me gustó mucho!', postId: 1, userId: 2 },
-    { id: 2, content: '¿Puedes expandir más sobre este tema?', postId: 1, userId: 3 },
+    {
+      id: 2,
+      content: '¿Puedes expandir más sobre este tema?',
+      postId: 1,
+      userId: 3,
+    },
   ],
   2: [
-    { id: 1, content: 'Interesante perspectiva, gracias por compartir.', postId: 2, userId: 1 },
+    {
+      id: 1,
+      content: 'Interesante perspectiva, gracias por compartir.',
+      postId: 2,
+      userId: 1,
+    },
   ],
 };
 
 //login
 
-export const users2 = [
+module.exports.users2 = [
   {
     email: 'test@example.com',
     password: '1234',
   },
-
 ];
 
 //registro y resetear contraseña
@@ -71,23 +94,26 @@ let regis = [
     apellido: 'Pérez',
     email: 'juan.perez@example.com',
     password: 'contraseña123',
-    registroAcademico: '123456'
-  }
+    registroAcademico: '123456',
+  },
 ];
 
-export const addUser = (user) => {
+module.exports.addUser = (user) => {
   regis.push(user);
 };
 
-export const getUsers = () => regis;
+module.exports.getUsers = () => regis;
 
-export const resetPassword = (email, registroAcademico, newPassword) => {
-  const user = regis.find(user => user.email === email && user.registroAcademico === registroAcademico);
-  
+module.exports.resetPassword = (email, registroAcademico, newPassword) => {
+  const user = regis.find(
+    (user) =>
+      user.email === email && user.registroAcademico === registroAcademico,
+  );
+
   if (user) {
-    user.password = newPassword; 
+    user.password = newPassword;
     return true;
   }
-  
+
   return false;
 };
