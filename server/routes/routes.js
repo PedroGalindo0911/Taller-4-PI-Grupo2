@@ -9,12 +9,16 @@ const {
 
 const {
   getCatedratico,
-  postCatedratico,
 } = require('../controllers/catedraticoController');
 
 const {
   getPosts,
 } = require('../controllers/postController');
+
+const {
+  getLoggedUser,
+} = require('../controllers/loggeduserController');
+
 
 router.post('/login', login);
 
@@ -24,25 +28,24 @@ router.put('/reset-password', resetPassword);
 
 router.get('/catedratico/:id', getCatedratico);
 
-router.post('/catedratico', postCatedratico);
-
-router.get('/posts', getPosts);
-/* 
-router.post('/crear-post', createPost);
-
-
+router.get('/posts/:id', getPosts);
 
 router.get('/logged-user', getLoggedUser);
 
-router.get('/cursos', getCursos)
 
-
+/* 
+router.post('/crear-post', createPost);
 
 router.get('/filtrar-por-curso/:curso', filtrarCursos)
 
 router.get('/filtrar-por-catedratico/:catedratico', filtrarCatedratico)
 
-router.get('/comentarios', getComentarios)
+router.get('/logged-user', getLoggedUser);
+
+router.get('/comentarios', getComentarios);
+
+router.get('/cursos', getCursos);
+
 
 router.post('/crear-comentario', crearComentario)
 
