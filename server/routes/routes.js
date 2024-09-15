@@ -27,6 +27,10 @@ const {
   getCursos,
 } = require('../controllers/cursosController');
 
+const {
+  getCursosAprobados,
+} = require('../controllers/cursosaprovadosController');
+
 
 router.post('/login', login);
 
@@ -44,6 +48,8 @@ router.get('/comentarios', getComentarios);
 
 router.get('/cursos', getCursos);
 
+router.get('/cursos-aprobados', getCursosAprobados);
+
 
 /* 
 router.post('/crear-post', createPost);
@@ -55,7 +61,7 @@ router.get('/filtrar-por-catedratico/:catedratico', filtrarCatedratico)
 
 router.post('/crear-comentario', crearComentario)
 
-router.get('/cursos-aprobados', getCursosAprobados)
+
 
 router.post('/agregar-curso', agregarCurso)
 
