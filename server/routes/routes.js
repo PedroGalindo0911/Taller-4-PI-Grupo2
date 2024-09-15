@@ -58,10 +58,7 @@ router.get('/filtrar-por-curso/:curso', filtrarCursos)
 
 router.get('/filtrar-por-catedratico/:catedratico', filtrarCatedratico)
 
-
 router.post('/crear-comentario', crearComentario)
-
-
 
 router.post('/agregar-curso', agregarCurso)
 
