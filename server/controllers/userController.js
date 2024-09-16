@@ -1,4 +1,5 @@
 const data = require('../data/data');
+const { infoUsuarioQuery, aprobadosQuery } = require('../models/userModel');
 
 exports.login = (req, res) => {
   try {
@@ -75,3 +76,34 @@ exports.resetPassword = (req, res) => {
     res.status(500).send('Error');
   }
 };
+
+exports.getInfoUsuario = async (req, res) => {
+  const { carnet } = req.body;
+
+  const infoUsuarioQueryResult = await infoUsuarioQuery(carnet);
+  const aprobadosQueryResult = await aprobadosQuery(carnet);
+
+  const infoUsuario = infoUsuarioQueryResult["0"];
+
+  let listaAprobados = [];
+
+  Object.keys(aprobadosQueryResult).forEach((key) => {
+    listaAprobados.push(
+      {
+        id: aprobadosQueryResult[key].id,
+        name: aprobadosQueryResult[key].nombre,
+        credits: aprobadosQueryResult[key].creditos,
+      }
+    );
+  });
+
+  res.json({
+    users: {
+      id: infoUsuario.carnet,
+      firstName: infoUsuario.nombres,
+      lastName: infoUsuario.apellidos,
+      email: infoUsuario.correo,
+      approvedCourses: listaAprobados,
+    },
+  });
+}
