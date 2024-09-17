@@ -4,11 +4,14 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import ProfileModal from './ProfileModal';
 import CoursesModal from './CoursesModal';
 import DropdownMenu from './DropdownMenu';
+import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isCoursesModalOpen, setIsCoursesModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -23,6 +26,11 @@ const Navbar = () => {
     setIsCoursesModalOpen(true);
     setIsDropdownOpen(false);
   };
+
+  const finishSession = () => {
+    Cookies.remove("carnet");
+    navigate("/");
+  }
 
   const closeProfileModal = () => setIsProfileModalOpen(false);
   const closeCoursesModal = () => setIsCoursesModalOpen(false);
@@ -49,6 +57,7 @@ const Navbar = () => {
             onClose={() => setIsDropdownOpen(false)}
             onProfileClick={openProfileModal}
             onCoursesClick={openCoursesModal}
+            onLogOut={finishSession}
           />
         </div>
       </div>

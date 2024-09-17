@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUsers } from '../data/data'; 
+import axios from "axios";
+import Cookies from "js-cookie";
+
+const SERVER_HOST = "localhost";
+const SERVER_PORT = "3000";
+const API_LOGIN_ENDPOINT = "/api/login"
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -8,18 +13,25 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const authenticate = async (email, password) => {
+    try {
+      const response = await axios.post(
+        `http://${SERVER_HOST}:${SERVER_PORT}${API_LOGIN_ENDPOINT}`,
+        {email, password}
+      );
+
+      if(response.status === 200) {
+        Cookies.set("carnet", response.data.carnet, {expires: 7});
+        navigate("/StudentBlog");
+      }
+    } catch (error) {
+      setError("Correo o contraseña inválido.");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const user = getUsers().find(
-      (user) => user.email === email && user.password === password
-    );
-
-    if (user) {
-      navigate('/StudentBlog');
-    } else {
-      setError('Invalid email or password');
-    }
+    authenticate(email, password);
   };
 
   return (
