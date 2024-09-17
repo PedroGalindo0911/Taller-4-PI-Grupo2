@@ -1,4 +1,3 @@
-
 INSERT INTO catedratico(nombre) values
 	('GUEVARA ORELLANA, WILLIAM SAMUEL'),
 	('RODAS ROBLEDO, EDGAR FRANCISCO'),
@@ -133,3 +132,79 @@ INSERT INTO curso (codigo,creditos,nombre,seccion,cat_id) values
 	(0780, 8, 'Software Avanzado','B',48),
 	(0722, 4, 'Teoria de Sistemas 1','A',49),
 	(0724, 4, 'Teoria de Sistemas 2','A',49);
+
+
+
+INSERT INTO usuario (carnet,nombres,apellidos,contrasena,correo) values 
+(210457585, 'Diego', 'Cano','1234','usac@gmail.com'),
+(202010214, 'Jorge', 'Cano','1234','usac@gmail.com'),
+(202014562, 'alexis', 'Cano','1234','usac@gmail.com');
+
+
+INSERT INTO publicacion (mensaje, usu_carnet, cur_id, cat_id) VALUES
+('Este es el primer mensaje', 210457585, 5, 12),
+('Este es el segundo mensaje', 202010214, 8, 23),
+('Este es el tercer mensaje', 202014562, 15, 7),
+('Este es el cuarto mensaje', 210457585, 22, 18),
+('Este es el quinto mensaje', 202010214, 30, 5);
+
+INSERT INTO comentario (mensaje, usu_carnet, pub_id) VALUES
+('Me parece muy útil este curso. ¡Gracias por compartir!', 210457585, 1),
+('La información sobre los exámenes es muy clara.', 202010214, 1),
+('¿Hay algún material adicional que podamos consultar?', 202014562, 2),
+('Excelente publicación, me ayudó a entender mejor el tema.', 210457585, 2),
+('¿Podrías incluir ejemplos prácticos en la próxima actualización?', 202010214, 3),
+('Los recursos proporcionados son bastante completos. ¡Bien hecho!', 202014562, 3),
+('El horario de las clases no está actualizado en el blog.', 210457585, 4),
+('¿Qué fecha es la próxima clase sobre el tema de investigación?', 202010214, 4),
+('Me gustaría ver más ejemplos de casos prácticos en esta área.', 202014562, 5),
+('Gran trabajo, los temas están bien organizados y son fáciles de seguir.', 210457585, 5),
+('¿Cómo puedo acceder a los materiales del curso anterior?', 202010214, 1),
+('La sección de preguntas frecuentes está muy bien hecha. Ayuda mucho.', 202014562, 2),
+('¿Hay alguna forma de hacer preguntas sobre los temas tratados?', 210457585, 3),
+('Sería útil tener un foro para discutir los temas del curso.', 202010214, 4),
+('¿Podrías incluir más casos de estudio para aplicar lo aprendido?', 202014562, 5);
+
+INSERT INTO asignacion (cur_id, usu_carnet) VALUES
+(3, 210457585),
+(8, 202010214),
+(15, 202014562),
+(22, 210457585),
+(5, 202010214),
+(18, 202014562),
+(7, 210457585),
+(26, 202010214),
+(12, 202014562),
+(30, 210457585);
+
+INSERT INTO aprobado (usu_carnet, cur_id) VALUES
+(210457585, 1),
+(202010214, 2),
+(202014562, 3),
+(210457585, 4),
+(202010214, 5),
+(202014562, 6),
+(210457585, 7),
+(202010214, 8),
+(202014562, 9),
+(210457585, 10),
+(202010214, 11),
+(202014562, 12),
+(210457585, 13),
+(202010214, 14),
+(202014562, 15),
+(210457585, 16),
+(202010214, 17),
+(202014562, 18),
+(210457585, 19),
+(202010214, 20),
+(202014562, 21),
+(210457585, 22),
+(202010214, 23),
+(202014562, 24),
+(210457585, 25),
+(202010214, 26),
+(202014562, 27),
+(210457585, 28),
+(202010214, 29),
+(202014562, 30);

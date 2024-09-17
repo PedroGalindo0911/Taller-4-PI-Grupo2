@@ -29,7 +29,7 @@ CREATE TABLE usuario(
 	);
 
 CREATE TABLE asignacion(
-	id INT NOT NULL,
+	id INT NOT NULL auto_increment,
 	hora_asignado TIMESTAMP default current_TIMESTAMP,
 	cur_id INT,
 	usu_carnet INT,
@@ -39,7 +39,7 @@ CREATE TABLE asignacion(
 	);
 
 CREATE TABLE aprobado(
-	id INT NOT NULL,
+	id INT NOT NULL auto_increment,
 	hora_aprobado TIMESTAMP default current_TIMESTAMP,
 	usu_carnet INT,
 	cur_id INT,
@@ -49,9 +49,9 @@ CREATE TABLE aprobado(
 	);
 
 CREATE TABLE publicacion(
-	id INT NOT NULL,
+	id INT NOT NULL auto_increment,
 	hora_creado TIMESTAMP default current_TIMESTAMP,
-	mensaje VARCHAR(50),
+	mensaje VARCHAR(500),
 	usu_carnet INT,
 	cur_id INT,
 	cat_id INT,
@@ -62,17 +62,11 @@ CREATE TABLE publicacion(
 	);
 
 CREATE TABLE comentario(
-	id INT NOT NULL,
-	mensaje VARCHAR(50),
+	id INT NOT NULL auto_increment,
+	mensaje VARCHAR(500),
 	usu_carnet INT,
 	pub_id INT,
 	PRIMARY KEY (id),
 	FOREIGN KEY (usu_carnet) references usuario(carnet),
 	FOREIGN KEY (pub_id) references publicacion(id)
 	);
-
-
-
-
-
-/*show tables from foro;  Ctrl + enter, alt x (ejecuta bloques)*/
