@@ -1,18 +1,32 @@
 const data = require('../data/data');
-const { infoUsuarioQuery, aprobadosQuery } = require('../models/userModel');
+const { 
+  infoUsuarioQuery, 
+  aprobadosQuery, 
+  infoUsuariosQuery,
+  crearUsuarioQuery,
+  updatePasswordQuery
+} = require('../models/userModel');
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = data.users2.find(
-      (user) => user.email === email && user.password === password,
-    );
+    const infoUsuarios = await infoUsuariosQuery();
+
+    let user;
+    Object.keys(infoUsuarios).forEach((key) => {
+      if (infoUsuarios[key].correo === email && infoUsuarios[key].contrasena === password) {
+        user = infoUsuarios[key];
+      }
+    });
 
     if (user) {
       console.log('Login exitoso, email de usuario:', email);
 
-      res.status(200).send('Login exitoso');
+      res.status(200).json({
+        message: 'Login exitoso',
+        carnet: user.carnet,
+      });
     }
 
     if (user === undefined) {
@@ -25,51 +39,46 @@ exports.login = (req, res) => {
   }
 };
 
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
   try {
-    const users = data.users2;
-
     const { nombre, apellido, email, password, registroAcademico } = req.body;
 
-    const userExists = users.find((user) => user.email === email);
+    const crearUsuarioQueryResult = await crearUsuarioQuery(
+      registroAcademico,
+      nombre,
+      apellido,
+      email,
+      password,
+    );
 
-    if (userExists) {
-      console.log('El correo electrónico ya está registrado.');
-      res.status(400).send('El correo electrónico ya está registrado.');
-      return;
+    if (crearUsuarioQueryResult) {
+      console.log('Usuario creado', email);
+      res.status(200).send('Usuario creado');
     }
-
-    users.push({ nombre, apellido, email, password, registroAcademico });
-    console.log('Usuario registrado');
-    console.log(users);
-
-    res.status(200).send('Usuario registrado');
   } catch (error) {
     console.log(error);
-    res.status(400).send('Error');
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      res.status(400).send('El usuario ya existe');
+    } else {
+      res.status(500).send('Error al crear el usuario');
+    }
   }
 };
 
-exports.resetPassword = (req, res) => {
+exports.resetPassword = async (req, res) => {
   try {
     const { email, registroAcademico, newPassword } = req.body;
 
-    const user = data.users2.find(
-      (user) =>
-        user.email === email && user.registroAcademico === registroAcademico,
-    );
+    const results = await updatePasswordQuery(email, registroAcademico, newPassword);
 
-    if (user) {
-      user.password = newPassword;
-      console.log('Contraseña restablecida', user);
+    if (results[0].affectedRows > 0) {
+      console.log('Contraseña restablecida para el usuario con carnet: ', registroAcademico);
       res.status(200).send('Contraseña restablecida');
     }
 
-    if (user === undefined) {
-      console.log('Correo electrónico o registro académico incorrectos.');
-      res
-        .status(400)
-        .send('Correo electrónico o registro académico incorrectos.');
+    if (results[0].affectedRows === 0) {
+      console.log('Usuario no encontrado o se ha ingresado la misma contraseña');
+      res.status(404).send('Usuario no encontrado o se ha ingresado la misma contraseña');
     }
   } catch (error) {
     console.log(error);

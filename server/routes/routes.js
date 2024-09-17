@@ -54,16 +54,16 @@ router.get('/cursos-aprobados', getCursosAprobados);
 
 router.post('/crear-post', createPost);
 
-router.post('/crear-comentario', crearComentario)
+router.post('/crear-comentario', crearComentario);
 
-router.get('/filtrar-posts/:curso', filtrarPosts)
+router.get('/filtrar-posts/:curso', filtrarPosts);
 
-router.get('/filtrar-posts/:catedratico', filtrarPosts)
+router.get('/filtrar-posts/:catedratico', filtrarPosts);
 
-router.get('/filtrar-posts/:curso/:catedratico', filtrarPosts)
+router.get('/filtrar-posts/:curso/:catedratico', filtrarPosts);
 
-router.post('/agregar-curso', agregarCurso)
+router.post('/agregar-curso', agregarCurso);
 
-router.delete('/eliminar-curso', eliminarCurso)
+router.delete('/eliminar-curso', eliminarCurso);
 
 module.exports = router;
