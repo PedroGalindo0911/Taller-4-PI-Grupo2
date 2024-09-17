@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faBook, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-const DropdownMenu = ({ isOpen, onClose, onProfileClick, onCoursesClick }) => {
+const DropdownMenu = ({ isOpen, onClose, onProfileClick, onCoursesClick, onLogOut }) => {
   if (!isOpen) return null;
 
   return (
@@ -26,6 +26,7 @@ const DropdownMenu = ({ isOpen, onClose, onProfileClick, onCoursesClick }) => {
         
         {/* Opción de Cerrar Sesión */}
         <li
+          onClick={onLogOut}
           className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center transition-colors duration-200"
         >
           <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 text-gray-600" /> LogOut
