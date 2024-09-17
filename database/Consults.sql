@@ -127,14 +127,15 @@ END $$
 
 DROP procedure if exists CreatePublish $$
 CREATE procedure CreatePublish (
+	p_titulo VARCHAR(100),
 	p_mensaje VARCHAR(500),
 	p_usu_carnet INT,
 	p_cur_id INT,
 	p_cat_id INT
 )
 BEGIN
-	INSERT INTO publicacion (mensaje,usu_carnet,cur_id,cat_id) values 
-	(p_mensaje,p_usu_carnet,p_cur_id,p_cat_id);
+	INSERT INTO publicacion (titulo,mensaje,usu_carnet,cur_id,cat_id) values 
+	(p_titulo,p_mensaje,p_usu_carnet,p_cur_id,p_cat_id);
 END $$
 
 DROP procedure if exists UpdateUser $$

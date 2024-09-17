@@ -141,12 +141,12 @@ INSERT INTO usuario (carnet,nombres,apellidos,contrasena,correo) values
 (202014562, 'alexis', 'Cano','1234','usac@gmail.com');
 
 
-INSERT INTO publicacion (mensaje, usu_carnet, cur_id, cat_id) VALUES
-('Este es el primer mensaje', 210457585, 5, 12),
-('Este es el segundo mensaje', 202010214, 8, 23),
-('Este es el tercer mensaje', 202014562, 15, 7),
-('Este es el cuarto mensaje', 210457585, 22, 18),
-('Este es el quinto mensaje', 202010214, 30, 5);
+INSERT INTO publicacion (titulo,mensaje, usu_carnet, cur_id, cat_id) VALUES
+('titulo','Este es el primer mensaje', 210457585, 5, 12),
+('titulo','Este es el segundo mensaje', 202010214, 8, 23),
+('titulo','Este es el tercer mensaje', 202014562, 15, 7),
+('titulo','Este es el cuarto mensaje', 210457585, 22, 18),
+('titulo','Este es el quinto mensaje', 202010214, 30, 5);
 
 INSERT INTO comentario (mensaje, usu_carnet, pub_id) VALUES
 ('Me parece muy útil este curso. ¡Gracias por compartir!', 210457585, 1),

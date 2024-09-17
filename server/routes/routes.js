@@ -24,6 +24,7 @@ const {
 
 const {
   getCursos,
+  getCurso,
   agregarCurso,
   eliminarCurso,
 } = require('../controllers/cursosController');
@@ -32,35 +33,37 @@ const {
   getCursosAprobados,
 } = require('../controllers/cursosaprovadosController');
 
-router.post('/login', login);
+router.post('/login', login); //Pedro
 
-router.post('/register', register);
+router.post('/register', register); // Pedro
 
-router.put('/reset-password', resetPassword);
+router.put('/reset-password', resetPassword); // Pedro
 
 router.get('/catedratico/:id', getCatedratico);
 
 router.get('/posts/:id', getPost);
 
-router.get('/posts', getAllPosts);
+router.get('/posts', getAllPosts); // Pedro
 
-router.get('/get-usuario', getInfoUsuario);
+router.get('/get-usuario', getInfoUsuario); // Pedro
 
 router.get('/comentarios', getComentarios);
 
 router.get('/cursos', getCursos);
 
+router.get('/cursos/:id', getCurso);
+
 router.get('/cursos-aprobados', getCursosAprobados);
 
-router.post('/crear-post', createPost);
+router.post('/crear-post', createPost); // Pedro
 
-router.post('/crear-comentario', crearComentario);
+router.post('/crear-comentario', crearComentario); // Pedro
 
-router.get('/filtrar-posts/:curso', filtrarPosts);
+router.get('/filtrar-posts/:curso', filtrarPosts); // Pedro
 
-router.get('/filtrar-posts/:catedratico', filtrarPosts);
+router.get('/filtrar-posts/:catedratico', filtrarPosts); // Pedro
 
-router.get('/filtrar-posts/:curso/:catedratico', filtrarPosts);
+router.get('/filtrar-posts/:curso/:catedratico', filtrarPosts); // Pedro
 
 router.post('/agregar-curso', agregarCurso);
 

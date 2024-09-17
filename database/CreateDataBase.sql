@@ -50,6 +50,7 @@ CREATE TABLE aprobado(
 
 CREATE TABLE publicacion(
 	id INT NOT NULL auto_increment,
+	titulo VARCHAR(100),
 	hora_creado TIMESTAMP default current_TIMESTAMP,
 	mensaje VARCHAR(500),
 	usu_carnet INT,

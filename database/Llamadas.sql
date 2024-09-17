@@ -14,7 +14,7 @@ CALL GetAsignByCarnet(202010214);
 CALL GetAllAprobe();
 CALL GetAprobeByCarnet(202010214);
 CALL GetAllPublish();
-CALL CreatePublish('Hola es una publicacion', 202014562,15,7);
+CALL CreatePublish('titulo','Hola es una publicacion', 202014562,15,7);
 CALL GetAllComment();
 CALL CreateComment('QUE BUENA CLASE',202010214,3);
 CALL GetPostComment(3);
