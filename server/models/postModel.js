@@ -10,15 +10,15 @@ exports.getPostsQuery = async () => {
 };
 
 exports.createPostQuery = async (title, content, course, teacher, userId) => {
-  const [results, metadata] = await sequelize.query(
-    'CALL CreatePublish(:title, :content, :course, :teacher, :userId);',
+  const results = await sequelize.query(
+    'CALL CreatePublish(:title, :content, :userId, :course, :teacher);',
     {
       replacements: {
-        title,
-        content,
-        course,
-        teacher,
-        userId,
+        title: title,
+        content: content,
+        course: course,
+        teacher: teacher,
+        userId: userId,
       },
     },
   );
