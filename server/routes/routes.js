@@ -8,12 +8,11 @@ const {
   getInfoUsuario,
 } = require('../controllers/userController');
 
-const {
-  getCatedratico,
-} = require('../controllers/catedraticoController');
+const { getCatedratico } = require('../controllers/catedraticoController');
 
 const {
-  getPosts,
+  getPost,
+  getAllPosts,
   createPost,
   filtrarPosts,
 } = require('../controllers/postController');
@@ -33,7 +32,6 @@ const {
   getCursosAprobados,
 } = require('../controllers/cursosaprovadosController');
 
-
 router.post('/login', login);
 
 router.post('/register', register);
@@ -42,7 +40,9 @@ router.put('/reset-password', resetPassword);
 
 router.get('/catedratico/:id', getCatedratico);
 
-router.get('/posts/:id', getPosts);
+router.get('/posts/:id', getPost);
+
+router.get('/posts', getAllPosts);
 
 router.get('/get-usuario', getInfoUsuario);
 
