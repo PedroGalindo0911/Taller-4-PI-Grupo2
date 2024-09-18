@@ -10,3 +10,14 @@ exports.getAllTeachersQuery = async (id) => {
 
   return results;
 };
+
+exports.getCatedraticoByNameQuery = async (nombre) => {
+  const [results, metadata] = await sequelize.query(
+    'CALL GetCatedraticoByName(:nombre);',
+    {
+      replacements: { nombre },
+    },
+  );
+
+  return results;
+};

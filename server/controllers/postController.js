@@ -1,13 +1,18 @@
 const data = require('../data/data');
 const { getPostsQuery, createPostQuery } = require('../models/postModel');
 
-const { getAllTeachersQuery } = require('../models/teacherModel');
+const { getCatedraticoByNameQuery } = require('../models/teacherModel');
 
 const { getAllCursosQuery } = require('../models/cursoModel');
 
+const {
+  filtrarPostsPorCatedraticoQuery,
+  filtrarPostsPorCursoQuery,
+} = require('../models/postModel');
+
 exports.getPost = (req, res) => {
   res.json({
-    mensaje: "controlador getpost"
+    mensaje: 'controlador getpost',
   });
 };
 
@@ -20,20 +25,9 @@ exports.getAllPosts = async (req, res) => {
 exports.createPost = async (req, res) => {
   const { title, content, course, teacher, userId } = req.body;
 
-  const catedraticosQueryResult = await getAllTeachersQuery();
+  const catedraticoQueryResult = await getCatedraticoByNameQuery(teacher);
 
-  listaCatedraticos = [];
-
-  Object.keys(catedraticosQueryResult).forEach((key) => {
-    listaCatedraticos.push({
-      nombre: catedraticosQueryResult[key].nombre,
-      id: catedraticosQueryResult[key].id,
-    });
-  });
-
-  const catedratico = listaCatedraticos.find(
-    (catedratico) => catedratico.nombre === teacher,
-  );
+  const idCatedratico = catedraticoQueryResult.id;
 
   const cursosQueryResult = await getAllCursosQuery();
 
@@ -52,7 +46,7 @@ exports.createPost = async (req, res) => {
     title,
     content,
     curso.id,
-    catedratico.id,
+    idCatedratico,
     userId,
   );
 
@@ -68,18 +62,84 @@ exports.createPost = async (req, res) => {
   });
 };
 
-exports.filtrarPosts = (req, res) => {
-  if (req.params.curso) {
-    const { curso } = req.params;
-    const posts = data.posts.filter((post) => post.course.name === curso);
-    res.json(posts);
-  }
+exports.filtrarPostsCatedratico = async (req, res) => {
+  const { catedratico } = req.params;
 
-  if (req.params.catedratico) {
-    const { catedratico } = req.params;
-    const posts = data.posts.filter(
-      (post) => post.teacher.name === catedratico,
-    );
-    res.json(posts);
-  }
+  const results = await filtrarPostsPorCatedraticoQuery(catedratico);
+
+  listaPosts = [];
+
+  Object.keys(results).forEach((key) => {
+    listaPosts.push({
+      id: results[key].id,
+      title: results[key].titulo,
+      content: results[key].mensaje,
+      course: results[key].cur_id,
+      teacher: results[key].cat_id,
+      userId: results[key].usu_carnet,
+    });
+  });
+
+  res.json(listaPosts);
+
+  console.log('Posts filtrados por catedratico:', listaPosts);
+};
+
+exports.filtrarPostsCurso = async (req, res) => {
+  const { curso } = req.params;
+  const results = await filtrarPostsPorCursoQuery(curso);
+
+  listaPosts = [];
+
+  Object.keys(results).forEach((key) => {
+    listaPosts.push({
+      id: results[key].id,
+      title: results[key].titulo,
+      content: results[key].mensaje,
+      course: results[key].cur_id,
+      teacher: results[key].cat_id,
+      userId: results[key].usu_carnet,
+    });
+  });
+
+  res.json(listaPosts);
+
+  console.log('Posts filtrados por curso:', listaPosts);
+};
+
+exports.filtrarPostsCursoCatedratico = async (req, res) => {
+  const { curso, catedratico } = req.params;
+
+  const filtroCursoResults = await filtrarPostsPorCursoQuery(curso);
+  const filtroCatedraticoResults = await filtrarPostsPorCatedraticoQuery(
+    catedratico,
+  );
+
+  listaPosts = [];
+
+  Object.keys(filtroCursoResults).forEach((key) => {
+    listaPosts.push({
+      id: filtroCursoResults[key].id,
+      title: filtroCursoResults[key].titulo,
+      content: filtroCursoResults[key].mensaje,
+      course: filtroCursoResults[key].cur_id,
+      teacher: filtroCursoResults[key].cat_id,
+      userId: filtroCursoResults[key].usu_carnet,
+    });
+  });
+
+  Object.keys(filtroCatedraticoResults).forEach((key) => {
+    listaPosts.push({
+      id: filtroCatedraticoResults[key].id,
+      title: filtroCatedraticoResults[key].titulo,
+      content: filtroCatedraticoResults[key].mensaje,
+      course: filtroCatedraticoResults[key].cur_id,
+      teacher: filtroCatedraticoResults[key].cat_id,
+      userId: filtroCatedraticoResults[key].usu_carnet,
+    });
+  });
+
+  res.json(listaPosts);
+
+  console.log('Posts filtrados por curso y catedratico:', listaPosts);
 };

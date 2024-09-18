@@ -14,7 +14,9 @@ const {
   getPost,
   getAllPosts,
   createPost,
-  filtrarPosts,
+  filtrarPostsCurso,
+  filtrarPostsCatedratico,
+  filtrarPostsCursoCatedratico,
 } = require('../controllers/postController');
 
 const {
@@ -59,11 +61,14 @@ router.post('/crear-post', createPost); // Pedro
 
 router.post('/crear-comentario', crearComentario); // Pedro
 
-router.get('/filtrar-posts/:curso', filtrarPosts); // Pedro
+router.get('/filtrar-posts-curso/:curso', filtrarPostsCurso); // Pedro
 
-router.get('/filtrar-posts/:catedratico', filtrarPosts); // Pedro
+router.get('/filtrar-posts-catedratico/:catedratico', filtrarPostsCatedratico); // Pedro
 
-router.get('/filtrar-posts/:curso/:catedratico', filtrarPosts); // Pedro
+router.get(
+  '/filtrar-posts-curso-catedratico/:curso/:catedratico',
+  filtrarPostsCursoCatedratico,
+); // Pedro
 
 router.post('/agregar-curso', agregarCurso);
 

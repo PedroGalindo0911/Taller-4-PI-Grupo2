@@ -25,3 +25,27 @@ exports.createPostQuery = async (title, content, course, teacher, userId) => {
 
   return results;
 };
+
+exports.filtrarPostsPorCatedraticoQuery = async (catedratico) => {
+  const [results, metadata] = await sequelize.query(
+    'CALL FilterPostsByTeacherName(:catedratico);',
+    {
+      replacements: { catedratico },
+      type: sequelize.QueryTypes.SELECT,
+    },
+  );
+
+  return results;
+};
+
+exports.filtrarPostsPorCursoQuery = async (curso) => {
+  const [results, metadata] = await sequelize.query(
+    'CALL FilterPostsByCourseName(:curso);',
+    {
+      replacements: { curso },
+      type: sequelize.QueryTypes.SELECT,
+    },
+  );
+
+  return results;
+};
