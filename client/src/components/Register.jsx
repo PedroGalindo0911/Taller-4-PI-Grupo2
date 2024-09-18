@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { addUser, getUsers } from '../data/data';
+import axios from 'axios';
+
+const SERVER_HOST = "localhost";
+const SERVER_PORT = "3000";
+const API_REGISTER_ENDPOINT = "/api/register";
 
 const Register = () => {
   const [nombre, setNombre] = useState('');
@@ -11,19 +15,27 @@ const Register = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const existingUsers = getUsers();
-    const userExists = existingUsers.some(user => user.email === email);
+    try {
+      const response = await axios.post(
+        `http://${SERVER_HOST}:${SERVER_PORT}${API_REGISTER_ENDPOINT}`,
+        { nombre, apellido, email, password, registroAcademico }
+      );
 
-    if (userExists) {
-      setError('El correo electrónico ya está registrado.');
-      return;
+      if (response.status === 200) {
+        navigate('/'); 
+      }
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data || 'Error inesperado.');
+      } else if (error.request) {
+        setError('No se recibió respuesta del servidor.');
+      } else {
+        setError('Error al enviar la solicitud.');
+      }
     }
-
-    addUser({ nombre, apellido, email, password, registroAcademico });
-    navigate('/'); 
   };
 
   return (
@@ -34,7 +46,6 @@ const Register = () => {
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Campos del formulario */}
           <div>
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
             <input

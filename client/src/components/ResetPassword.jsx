@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../data/data'; 
+import axios from 'axios';
+
+const SERVER_HOST = "localhost";
+const SERVER_PORT = "3000";
+const API_RESET_PASSWORD_ENDPOINT = "/api/reset-password";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
@@ -9,19 +13,29 @@ const ResetPassword = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
 
-    const success = resetPassword(email, registroAcademico, newPassword);
-  
-    if (success) {
-      navigate('/'); 
-    } else {
-      setError('Correo electrónico o registro académico incorrectos.');
+    try {
+      const response = await axios.put(
+        `http://${SERVER_HOST}:${SERVER_PORT}${API_RESET_PASSWORD_ENDPOINT}`,
+        { email, registroAcademico, newPassword }
+      );
+
+      if (response.status === 200) {
+        navigate('/'); 
+      }
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data || 'Error inesperado.');
+      } else if (error.request) {
+        setError('No se recibió respuesta del servidor.');
+      } else {
+        setError('Error al enviar la solicitud.');
+      }
     }
   };
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6 bg-cover bg-center" style={{ backgroundImage: 'url(/images/FondoContra.jpg)' }}>
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
