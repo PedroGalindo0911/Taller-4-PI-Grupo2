@@ -232,7 +232,7 @@ CREATE procedure FilterPostsByCourse (
 	IN p_cur_codigo INT
 )
 BEGIN
-	SELECT p.id,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
+	SELECT p.id,p.titulo,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
 	FROM publicacion p
 	INNER JOIN curso c on p.cur_id=c.id
 	WHERE c.codigo=p_cur_codigo;
@@ -252,7 +252,7 @@ CREATE procedure FilterPostsByCourseName (
 	IN p_cur_nombre VARCHAR(50)
 )
 BEGIN
-	SELECT p.id,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
+	SELECT p.id,p.titulo,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
 	FROM publicacion p
 	INNER JOIN curso c on p.cur_id=c.id
 	WHERE c.nombre=p_cur_nombre;
@@ -263,7 +263,7 @@ CREATE procedure FilterPostsByTeacherName (
 	IN p_cat_nombre VARCHAR(50)
 )
 BEGIN
-	SELECT p.id,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
+	SELECT p.id,p.titulo,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
 	FROM publicacion p
 	INNER JOIN catedratico c on p.cat_id=c.id
 	WHERE c.nombre=p_cat_nombre;
