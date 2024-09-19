@@ -47,6 +47,7 @@ router.put('/reset-password', resetPassword); // Pedro
 
 router.get('/catedratico/:nombre', getCatedratico); //Pablo
 
+
 router.get('/posts/:id', getPost);
 
 router.get('/posts', getAllPosts); // Pedro
@@ -61,7 +62,7 @@ router.get('/comentarios', getComentarios);
 
 router.get('/cursos', getCursos);
 
-router.get('/cursos/:id', getCurso);
+router.get('/curso/:nombre', getCurso);
 
 router.get('/cursos-aprobados', getCursosAprobados);
 

@@ -1,5 +1,5 @@
 const data = require('../data/data');
-const { getAllCursosQuery } = require('../models/cursoModel');
+const { getAllCursosQuery, getCursosByIdQuery, getCursoByName } = require('../models/cursoModel');
 
 exports.getCursos = async(req, res) => {
 
@@ -42,13 +42,24 @@ exports.eliminarCurso = (req, res) => {
   console.log(data.courses);
 };
 
-exports.getCurso = (req, res) => {
-  const { id } = req.params;
-  curso = data.courses.find((item) => item.id == id);
-  res.json({
-    id: curso.id,
-    name: curso.name,
-    credits: curso.credits,
-    teacherId: curso.teacherId,
-  });
+exports.getCurso = async(req, res) => {
+  try {
+    const { nombre } = req.params;
+
+    const curso = await getCursoByName(nombre);
+
+    if (!curso) {
+      return res
+        .status(404)
+        .json({ mensaje: `curso "${nombre}" no encontrado.` });
+    }
+
+    res.json({
+      mensaje: `curso: ${nombre}`,
+      curso:curso["0"]
+    });
+  } catch (error) {
+    console.error('Error fetching curso:', error);
+    res.status(500).json({ mensaje: 'Error al obtener el curso.' });
+  }
 };
