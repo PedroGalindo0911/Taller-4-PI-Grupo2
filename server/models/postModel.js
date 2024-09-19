@@ -26,11 +26,11 @@ exports.createPostQuery = async (title, content, course, teacher, userId) => {
   return results;
 };
 
-exports.filtrarPostsPorCatedraticoQuery = async (catedratico) => {
+exports.filtrarPostsPorCatedraticoQuery = async (idCatedratico) => {
   const [results, metadata] = await sequelize.query(
-    'CALL FilterPostsByTeacherName(:catedratico);',
+    'CALL FilterPostsByTeacher(:idCatedratico);',
     {
-      replacements: { catedratico },
+      replacements: { idCatedratico },
       type: sequelize.QueryTypes.SELECT,
     },
   );
@@ -38,11 +38,11 @@ exports.filtrarPostsPorCatedraticoQuery = async (catedratico) => {
   return results;
 };
 
-exports.filtrarPostsPorCursoQuery = async (curso) => {
+exports.filtrarPostsPorCursoQuery = async (idCurso) => {
   const [results, metadata] = await sequelize.query(
-    'CALL FilterPostsByCourseName(:curso);',
+    'CALL FilterPostsByCourse(:idCurso);',
     {
-      replacements: { curso },
+      replacements: { idCurso },
       type: sequelize.QueryTypes.SELECT,
     },
   );

@@ -34,7 +34,7 @@ exports.getAllCatedraticos = async (req, res) => {
     Object.keys(catedraticos).forEach((key) => {
       listaCatedraticos.push({
         id: catedraticos[key].id,
-        nombre: catedraticos[key].nombre,
+        name: catedraticos[key].nombre,
       });
     });
     console.log(listaCatedraticos);

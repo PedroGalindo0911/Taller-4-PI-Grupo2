@@ -65,8 +65,10 @@ const PostFilters = () => {
           url = `/api/filtrar-posts-curso-catedratico/${selectedCourse}/${selectedTeacher}`;
         } else if (selectedCourse) {
           url = `/api/filtrar-posts-curso/${selectedCourse}`;
+          console.log(selectedCourse);
         } else if (selectedTeacher) {
           url = `/api/filtrar-posts-catedratico/${selectedTeacher}`;
+          console.log(selectedTeacher);
         }
         const postsRes = await axios.get(
           `http://${SERVER_HOST}:${SERVER_PORT}${url}`,
