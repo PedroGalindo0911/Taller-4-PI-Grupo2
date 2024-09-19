@@ -29,15 +29,15 @@ exports.getCatedratico = async (req, res) => {
 exports.getAllCatedraticos = async (req, res) => {
   try {
     const catedraticos = await getAllTeachersQuery();
-
     let listaCatedraticos = [];
 
-    catedraticos.forEach((catedratico) => {
+    Object.keys(catedraticos).forEach((key) => {
       listaCatedraticos.push({
-        id: catedratico.id,
-        nombre: catedratico.nombre,
+        id: catedraticos[key].id,
+        nombre: catedraticos[key].nombre,
       });
     });
+    console.log(listaCatedraticos);
     res.json(listaCatedraticos);
   } catch (error) {
     console.error('Error fetching catedráticos:', error);

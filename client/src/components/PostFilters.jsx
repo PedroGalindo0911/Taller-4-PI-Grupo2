@@ -8,7 +8,7 @@ import PostModal from './PostModal';
 const SERVER_HOST = 'localhost';
 const SERVER_PORT = '3000';
 const API_COURSES_ENDPOINT = `/api/cursos`;
-const API_TEACHERS_ENDPOINT = `/api/catedratico`;
+const API_TEACHERS_ENDPOINT = `/api/catedraticos`;
 const API_POSTS_ENDPOINT = `/api/posts`;
 const API_USER_ENDPOINT = `/api/user`;
 

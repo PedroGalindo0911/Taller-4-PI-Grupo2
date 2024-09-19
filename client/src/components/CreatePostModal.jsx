@@ -5,7 +5,7 @@ import { useUser } from '../context/UserContext';
 const SERVER_HOST = 'localhost';
 const SERVER_PORT = '3000';
 const API_CURSOS_ENDPOINT = '/api/cursos';
-const API_CATEDRATICO_ENDPOINT = '/api/catedratico';
+const API_CATEDRATICO_ENDPOINT = '/api/catedraticos';
 const API_CREAR_POST_ENDPOINT = '/api/crear-post';
 
 const CreatePostModal = ({ isOpen, onClose, onCreatePost }) => {
