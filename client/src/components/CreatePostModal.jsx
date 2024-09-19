@@ -94,11 +94,11 @@ const CreatePostModal = ({ isOpen, onClose, onCreatePost }) => {
               required
             >
               <option value=''>Seleccionar Curso</option>
-              {/* {courses.map((course) => (
+               {courses.map((course) => (
                 <option key={course.id} value={course.id}>
                   {course.name}
                 </option>
-              ))} */}
+              ))} 
             </select>
           </div>
           <div className='mb-4'>
