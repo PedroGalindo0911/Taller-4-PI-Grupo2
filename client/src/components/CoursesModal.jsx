@@ -1,41 +1,83 @@
-import React, { useState } from 'react';
-import { courses, users } from '../data/data.js';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useUser } from '../context/UserContext'; 
+
+const SERVER_HOST = "localhost";
+const SERVER_PORT = "3000";
+const API_CURSOS_ENDPOINT = "/api/cursos";
+const API_CURSOS_APROBADOS_ENDPOINT = "/api/cursos-aprobados";
+const API_AGREGAR_CURSO_ENDPOINT = "/api/agregar-curso";
+const API_ELIMINAR_CURSO_ENDPOINT = "/api/eliminar-curso";
 
 const CoursesModal = ({ isOpen, onClose }) => {
-  const user = users[0];
+  const { user } = useUser(); 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCourses, setSelectedCourses] = useState(user.approvedCourses);
+  const [selectedCourses, setSelectedCourses] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [filteredCourses, setFilteredCourses] = useState(
-    courses.filter(course => !user.approvedCourses.some(approved => approved.id === course.id))
-  );
+  const [filteredCourses, setFilteredCourses] = useState([]);
+
+  useEffect(() => {
+    if (isOpen && user) {
+      fetchApprovedCourses();
+    }
+  }, [isOpen, user]);
+
+  
+  const fetchApprovedCourses = async () => {
+    try {
+      const response = await axios.get(`http://${SERVER_HOST}:${SERVER_PORT}${API_CURSOS_APROBADOS_ENDPOINT}`, {
+        params: { carnet: user.carnet }
+      });
+      setSelectedCourses(response.data);
+    } catch (error) {
+      console.error('Error al obtener los cursos aprobados:', error);
+    }
+  };
+
+ 
+  const handleSearch = async (e) => {
+    setSearchTerm(e.target.value);
+    try {
+      const response = await axios.get(`http://${SERVER_HOST}:${SERVER_PORT}${API_CURSOS_ENDPOINT}`, {
+        params: { searchTerm: e.target.value }
+      });
+      
+      setFilteredCourses(response.data.filter(course => 
+        !selectedCourses.some(approved => approved.id === course.id)
+      ));
+    } catch (error) {
+      console.error('Error al buscar cursos:', error);
+    }
+  };
+
+  const handleAddCourse = async (course) => {
+    try {
+      await axios.post(`http://${SERVER_HOST}:${SERVER_PORT}${API_AGREGAR_CURSO_ENDPOINT}`, {
+        carnet: user.carnet,
+        courseId: course.id
+      });
+      setSelectedCourses([...selectedCourses, course]);
+      setDropdownOpen(false);
+      setSearchTerm('');
+      setFilteredCourses(filteredCourses.filter(c => c.id !== course.id));
+    } catch (error) {
+      console.error('Error al agregar curso:', error);
+    }
+  };
+
+  // Eliminar un curso
+  const handleRemoveCourse = async (courseId) => {
+    try {
+      await axios.delete(`http://${SERVER_HOST}:${SERVER_PORT}${API_ELIMINAR_CURSO_ENDPOINT}`, {
+        data: { carnet: user.carnet, courseId }
+      });
+      setSelectedCourses(selectedCourses.filter(course => course.id !== courseId));
+    } catch (error) {
+      console.error('Error al eliminar curso:', error);
+    }
+  };
 
   if (!isOpen) return null;
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setFilteredCourses(
-      courses.filter(course =>
-        course.name.toLowerCase().includes(e.target.value.toLowerCase()) &&
-        !selectedCourses.some(approved => approved.id === course.id)
-      )
-    );
-  };
-
-  const handleAddCourse = (course) => {
-    setSelectedCourses([...selectedCourses, course]);
-    setDropdownOpen(false);
-    setSearchTerm('');
-    setFilteredCourses(
-      courses.filter(course =>
-        !selectedCourses.some(approved => approved.id === course.id)
-      )
-    );
-  };
-
-  const handleRemoveCourse = (courseId) => {
-    setSelectedCourses(selectedCourses.filter(course => course.id !== courseId));
-  };
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-30">

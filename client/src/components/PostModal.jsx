@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
-import { users } from '../data/data'; // Datos de usuarios
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Icono de usuario
+import React, { useState, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { UserContext } from '../context/UserContext'; 
 
 const PostModal = ({ post, onClose, onUserClick }) => {
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]); // Guarda los comentarios con el ID del usuario actual
+  const [comments, setComments] = useState([]); 
+
+  const { user } = useContext(UserContext); 
 
   if (!post) return null;
 
   const handleAddComment = () => {
     if (comment.trim() !== '') {
-      const user = users[0]; // Aquí puedes establecer el usuario actual de manera dinámica
-      const newComment = {
-        content: comment,
-        userId: user.id
-      };
-      setComments([...comments, newComment]);
-      setComment('');
+      if (user) { 
+        const newComment = {
+          content: comment,
+          userId: user.id 
+        };
+        setComments([...comments, newComment]);
+        setComment('');
+      } else {
+        console.error('Usuario no logueado.');
+      }
     }
   };
 
@@ -30,7 +35,7 @@ const PostModal = ({ post, onClose, onUserClick }) => {
         {/* Mostrar el usuario que publicó el post */}
         <div className="flex items-center mt-2 cursor-pointer" onClick={() => onUserClick(post.userId)}>
           <FontAwesomeIcon icon={faUser} className="mr-2" />
-          <span>{users.find(user => user.id === post.userId)?.firstName} {users.find(user => user.id === post.userId)?.lastName}</span>
+          <span>{post.userFirstName} {post.userLastName}</span> 
         </div>
 
         {/* Sección de comentarios */}

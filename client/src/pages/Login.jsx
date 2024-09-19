@@ -1,27 +1,32 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-import Cookies from "js-cookie";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useUser } from '../context/UserContext';
 
 const SERVER_HOST = "localhost";
 const SERVER_PORT = "3000";
-const API_LOGIN_ENDPOINT = "/api/login"
+const API_LOGIN_ENDPOINT = "/api/login";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setUser } = useUser(); // Usar el contexto del usuario
 
   const authenticate = async (email, password) => {
     try {
       const response = await axios.post(
         `http://${SERVER_HOST}:${SERVER_PORT}${API_LOGIN_ENDPOINT}`,
-        {email, password}
+        { email, password }
       );
 
-      if(response.status === 200) {
-        Cookies.set("carnet", response.data.carnet, {expires: 7});
+      if (response.status === 200) {
+        const user = response.data;
+        Cookies.set("carnet", user.carnet, { expires: 7 });
+        setUser(user); // Actualizar el estado del usuario en el contexto
         navigate("/StudentBlog");
       }
     } catch (error) {
@@ -78,7 +83,7 @@ const Login = () => {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              navigate('/Register'); 
+              navigate('/Register');
             }}
             className="text-sm text-blue-500 hover:underline"
           >
@@ -89,7 +94,7 @@ const Login = () => {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              navigate('/ResetPassword'); 
+              navigate('/ResetPassword');
             }}
             className="text-sm text-blue-500 hover:underline"
           >

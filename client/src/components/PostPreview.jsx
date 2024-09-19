@@ -7,15 +7,15 @@ const PostPreview = ({ post, onPostClick, onUserClick }) => {
         <span
           className="text-lg font-semibold text-blue-500 cursor-pointer"
           onClick={(e) => {
-            e.stopPropagation(); // Evita que se dispare el onPostClick cuando hacemos clic en el nombre
-            onUserClick(post.userId);
+            e.stopPropagation();
+            onUserClick(post.userId); 
           }}
         >
-          {post.userName}
+          {post.userName} 
         </span>
       </div>
       <h3 className="text-xl font-semibold">{post.title}</h3>
-      <p className="text-gray-600">{post.content.substring(0, 100)}...</p>
+      <p className="text-gray-600">{post.content.length > 100 ? `${post.content.substring(0, 100)}...` : post.content}</p>
     </div>
   );
 };

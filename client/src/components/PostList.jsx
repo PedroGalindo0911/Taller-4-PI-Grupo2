@@ -27,6 +27,7 @@ const PostsList = ({ posts }) => {
               key={post.id}
               className="bg-white p-4 rounded-lg shadow-md hover:bg-gray-100 cursor-pointer transition duration-300"
               onClick={() => handleOpenPostModal(post)}
+              aria-label={`Ver post: ${post.title}`}
             >
               <h3 className="text-xl font-semibold">{post.title}</h3>
               <p className="text-gray-600">

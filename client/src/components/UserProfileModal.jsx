@@ -1,10 +1,36 @@
-import React from 'react';
-import { users } from '../data/data';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const SERVER_HOST = "localhost";
+const SERVER_PORT = "3000";
+const API_USER_ENDPOINT = `/user`;
 
 const UserProfileModal = ({ userId, onClose }) => {
-  const user = users.find((user) => user.id === userId);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!user) return null;
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`http://${SERVER_HOST}:${SERVER_PORT}${API_USER_ENDPOINT}/${userId}`);
+        setUser(response.data);
+      } catch (error) {
+        setError('Error al cargar el perfil del usuario.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchUser();
+    }
+  }, [userId]);
+
+  if (!userId || loading) return null; 
+
+  if (error) return <div className="text-red-500">{error}</div>;
 
   const totalCredits = user.approvedCourses.reduce((sum, course) => sum + course.credits, 0);
 

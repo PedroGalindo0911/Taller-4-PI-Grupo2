@@ -1,27 +1,53 @@
-import React, { useState } from 'react';
-import { courses, teachers } from '../data/data.js';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useUser } from '../context/UserContext'; 
+
+const SERVER_HOST = "localhost";
+const SERVER_PORT = "3000";
+const API_CURSOS_ENDPOINT = "/api/cursos";
+const API_CATEDRATICO_ENDPOINT = "/api/catedratico";
+const API_CREAR_POST_ENDPOINT = "/api/crear-post";
 
 const CreatePostModal = ({ isOpen, onClose, onCreatePost }) => {
+  const { user } = useUser(); 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedTeacher, setSelectedTeacher] = useState('');
+  const [courses, setCourses] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      axios.get(`http://${SERVER_HOST}:${SERVER_PORT}${API_CURSOS_ENDPOINT}`)
+        .then(response => setCourses(response.data))
+        .catch(error => console.error('Error fetching courses:', error));
+
+      axios.get(`http://${SERVER_HOST}:${SERVER_PORT}${API_CATEDRATICO_ENDPOINT}`)
+        .then(response => setTeachers(response.data))
+        .catch(error => console.error('Error fetching teachers:', error));
+    }
+  }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title && content && selectedCourse && selectedTeacher) {
-      const newPost = {
-        id: Date.now(),
+      axios.post(`http://${SERVER_HOST}:${SERVER_PORT}${API_CREAR_POST_ENDPOINT}`, {
         title,
         content,
-        course: courses.find((course) => course.id === parseInt(selectedCourse)),
-        teacher: teachers.find((teacher) => teacher.id === parseInt(selectedTeacher)),
-      };
-      onCreatePost(newPost);
-      setTitle('');
-      setContent('');
-      setSelectedCourse('');
-      setSelectedTeacher('');
+        courseId: selectedCourse,
+        teacherId: selectedTeacher,
+        userId: user.id 
+      })
+        .then(response => {
+          onCreatePost(response.data);
+          setTitle('');
+          setContent('');
+          setSelectedCourse('');
+          setSelectedTeacher('');
+          onClose();
+        })
+        .catch(error => console.error('Error creating post:', error));
     }
   };
 
