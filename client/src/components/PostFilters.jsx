@@ -44,7 +44,7 @@ const PostFilters = () => {
             ),
           ],
         );
-
+      
         setCourses(coursesRes.data);
         setTeachers(teachersRes.data);
         setAllPosts(postsRes.data);
@@ -129,11 +129,11 @@ const PostFilters = () => {
               className='w-full p-2 border border-gray-300 rounded'
             >
               <option value=''>Seleccionar Curso</option>
-              {/* {courses.map((course) => (
+               {courses.map((course) => (
                 <option key={course.id} value={course.id}>
                   {course.name}
                 </option>
-              ))} */}
+              ))} 
             </select>
           </div>
 

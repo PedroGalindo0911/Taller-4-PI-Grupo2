@@ -55,7 +55,7 @@ router.get('/get-usuario/:carnet', getInfoUsuario); // Pedro
 
 router.get('/user', getAllUsers);
 
-router.get('/catedraticos', getAllCatedraticos);
+router.get('/catedraticos', getAllCatedraticos);//** 
 
 router.get('/comentarios', getComentarios);
 

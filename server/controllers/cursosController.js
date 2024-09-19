@@ -1,13 +1,24 @@
 const data = require('../data/data');
+const { getAllCursosQuery } = require('../models/cursoModel');
 
-exports.getCursos = (req, res) => {
-  curso = data.courses[0];
-  res.json({
-    id: curso.id,
-    name: curso.name,
-    credits: curso.credits,
-    teacherId: curso.teacherId,
-  });
+exports.getCursos = async(req, res) => {
+
+  try {
+    const cursos = await getAllCursosQuery();
+    let listaCursos = [];
+
+    Object.keys(cursos).forEach((key) => {
+      listaCursos.push({
+        id: cursos[key].id,
+        name: cursos[key].nombre,
+      });
+    });
+    console.log(listaCursos);
+    res.json(listaCursos);
+  } catch (error) {
+    console.error('Error fetching cursos:', error);
+    res.status(500).json({ mensaje: 'Error al obtener los cursos.' });
+  }
 };
 
 exports.agregarCurso = (req, res) => {
