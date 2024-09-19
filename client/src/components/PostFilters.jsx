@@ -88,6 +88,38 @@ const PostFilters = () => {
     setIsPostModalOpen(true);
   };
 
+  const handleTextFilter = (e) => {
+    const teacher = prompt("Ingresa el nombre del catedratico:");
+    const course = prompt("Ingresa el correo del curso:");
+
+    const updateTeacherFilter = async () => {
+      const teacherInfo = await axios.get(
+        `http://${SERVER_HOST}:${SERVER_PORT}/api/catedratico/${teacher}`
+      );
+      setSelectedTeacher(teacherInfo.data.catedratico.id);
+    };
+
+    const updateCourseFilter = async () => {
+      const courseInfo = await axios.get(
+        `http://${SERVER_HOST}:${SERVER_PORT}/api/curso/${teacher}`
+      );
+      setSelectedCourse(teacherInfo.data.curso.id);
+    };
+
+    if(!teacher) {
+      setSelectedTeacher('');
+    } else {
+      updateTeacherFilter();
+    };
+
+    if(!course) {
+      setSelectedCourse('');
+    } else {
+      setSelectedCourse('');
+    }
+
+  };
+
   const handleClosePostModal = () => setIsPostModalOpen(false);
 
   const handleUserClick = (userId) => {
@@ -157,6 +189,20 @@ const PostFilters = () => {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className='relative'>
+            <label
+              htmlFor='text-prompt-filter'
+              className='block text-lg font-semibold mb-2'
+            ></label>
+            <button
+              onClick={handleTextFilter}
+              className='px-4 py-2 bg-black text-white rounded shadow-md hover:bg-gray-800 transition-colors duration-300'
+              aria-label='Filtrar por texto'
+            >
+              Filtrar por texto
+            </button>
           </div>
         </div>
 
