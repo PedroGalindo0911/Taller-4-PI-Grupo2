@@ -25,3 +25,22 @@ exports.getCatedratico = async (req, res) => {
     res.status(500).json({ mensaje: 'Error al obtener el catedrático.' });
   }
 };
+
+exports.getAllCatedraticos = async (req, res) => {
+  try {
+    const catedraticos = await getAllTeachersQuery();
+
+    let listaCatedraticos = [];
+
+    catedraticos.forEach((catedratico) => {
+      listaCatedraticos.push({
+        id: catedratico.id,
+        nombre: catedratico.nombre,
+      });
+    });
+    res.json(listaCatedraticos);
+  } catch (error) {
+    console.error('Error fetching catedráticos:', error);
+    res.status(500).json({ mensaje: 'Error al obtener los catedráticos.' });
+  }
+};
