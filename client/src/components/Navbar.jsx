@@ -28,6 +28,7 @@ const Navbar = () => {
             `http://${SERVER_HOST}:${SERVER_PORT}${API_USER_ENDPOINT}/${carnet}`,
           );
           setUserProfile(response.data);
+          console.log('Perfil del usuario:', response.data);
         } catch (error) {
           console.error('Error al cargar el perfil del usuario:', error);
           finishSession();
