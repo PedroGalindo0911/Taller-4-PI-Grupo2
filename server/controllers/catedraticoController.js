@@ -6,7 +6,7 @@ const {
 
 exports.getCatedratico = async (req, res) => {
   try {
-    const { nombre } = req.body;
+    const { nombre } = req.params;
 
     const catedratico = await getCatedraticoByNameQuery(nombre);
 
@@ -18,7 +18,7 @@ exports.getCatedratico = async (req, res) => {
 
     res.json({
       mensaje: `Catedrático: ${nombre}`,
-      catedratico,
+      catedratico:catedratico["0"]
     });
   } catch (error) {
     console.error('Error fetching catedrático:', error);

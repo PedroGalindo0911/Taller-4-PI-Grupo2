@@ -45,7 +45,7 @@ router.post('/register', register); // Pedro
 
 router.put('/reset-password', resetPassword); // Pedro
 
-router.get('/catedratico', getCatedratico); //Pablo
+router.get('/catedratico/:nombre', getCatedratico); //Pablo
 
 router.get('/posts/:id', getPost);
 
