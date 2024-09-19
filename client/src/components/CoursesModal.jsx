@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '../context/UserContext'; 
+import Cookies from "js-cookie"
 
 const SERVER_HOST = "localhost";
 const SERVER_PORT = "3000";
@@ -52,8 +53,9 @@ const CoursesModal = ({ isOpen, onClose }) => {
 
   const handleAddCourse = async (course) => {
     try {
+      let carnet = Cookies.get("carnet")
       await axios.post(`http://${SERVER_HOST}:${SERVER_PORT}${API_AGREGAR_CURSO_ENDPOINT}`, {
-        carnet: user.carnet,
+        carnet: carnet,
         courseId: course.id
       });
       setSelectedCourses([...selectedCourses, course]);
