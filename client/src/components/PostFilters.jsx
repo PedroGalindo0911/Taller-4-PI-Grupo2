@@ -101,9 +101,10 @@ const PostFilters = () => {
 
     const updateCourseFilter = async () => {
       const courseInfo = await axios.get(
-        `http://${SERVER_HOST}:${SERVER_PORT}/api/curso/${teacher}`
+        `http://${SERVER_HOST}:${SERVER_PORT}/api/curso/${course}`
       );
-      setSelectedCourse(teacherInfo.data.curso.id);
+      console.log(courseInfo.data)
+      setSelectedCourse(courseInfo.data.curso.id);
     };
 
     if(!teacher) {
@@ -115,7 +116,7 @@ const PostFilters = () => {
     if(!course) {
       setSelectedCourse('');
     } else {
-      setSelectedCourse('');
+      updateCourseFilter();
     }
 
   };
