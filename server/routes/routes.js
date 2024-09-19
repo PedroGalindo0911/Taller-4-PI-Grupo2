@@ -47,7 +47,7 @@ router.get('/posts/:id', getPost);
 
 router.get('/posts', getAllPosts); // Pedro
 
-router.get('/get-usuario', getInfoUsuario); // Pedro
+router.post('/get-usuario', getInfoUsuario); // Pedro
 
 router.get('/comentarios', getComentarios);
 

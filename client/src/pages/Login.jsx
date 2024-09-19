@@ -17,11 +17,13 @@ const Login = () => {
   const { setUser } = useUser(); // Usar el contexto del usuario
 
   const authenticate = async (email, password) => {
+    console.log("hola mundo")
     try {
       const response = await axios.post(
         `http://${SERVER_HOST}:${SERVER_PORT}${API_LOGIN_ENDPOINT}`,
         { email, password }
       );
+      console.log(response)
 
       if (response.status === 200) {
         const user = response.data;
