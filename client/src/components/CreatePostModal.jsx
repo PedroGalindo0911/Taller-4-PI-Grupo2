@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
+import Cookies from "js-cookie"
 
 const SERVER_HOST = 'localhost';
 const SERVER_PORT = '3000';
@@ -33,6 +34,7 @@ const CreatePostModal = ({ isOpen, onClose, onCreatePost }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let carnet = Cookies.get("carnet")
     if (title && content && selectedCourse && selectedTeacher) {
       axios
         .post(
@@ -42,7 +44,7 @@ const CreatePostModal = ({ isOpen, onClose, onCreatePost }) => {
             content,
             courseId: selectedCourse,
             teacherId: selectedTeacher,
-            userId: user.id,
+            userId: carnet,
           },
         )
         .then((response) => {
