@@ -244,7 +244,7 @@ BEGIN
 	SELECT p.id,p.titulo,p.hora_creado,p.mensaje,p.usu_carnet,p.cur_id,p.cat_id
 	FROM publicacion p
 	INNER JOIN curso c on p.cur_id=c.id
-	WHERE c.codigo=p_cur_codigo;
+	WHERE c.id=p_cur_codigo;
 END $$
 
 DROP procedure if exists FilterPostsByTeacher $$
