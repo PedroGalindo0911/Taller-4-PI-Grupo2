@@ -79,7 +79,7 @@ exports.filtrarPostsCatedratico = async (req, res) => {
   const { catedratico } = req.params;
 
   const results = await filtrarPostsPorCatedraticoQuery(catedratico);
-
+  console.log(results);
   listaPosts = [];
 
   Object.keys(results).forEach((key) => {

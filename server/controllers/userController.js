@@ -120,13 +120,11 @@ exports.getInfoUsuario = async (req, res) => {
   });
 
   res.json({
-    users: {
-      id: infoUsuario.carnet,
-      firstName: infoUsuario.nombres,
-      lastName: infoUsuario.apellidos,
-      email: infoUsuario.correo,
-      approvedCourses: listaAprobados,
-    },
+    id: infoUsuario.carnet,
+    firstName: infoUsuario.nombres,
+    lastName: infoUsuario.apellidos,
+    email: infoUsuario.correo,
+    approvedCourses: listaAprobados,
   });
 };
 
