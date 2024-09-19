@@ -186,6 +186,15 @@ BEGIN
 	WHERE nombre = p_nombre;
 END $$
 
+DROP procedure if exists GetCursoByName $$
+CREATE procedure GetCursoByName (
+	IN p_nombre VARCHAR(50)
+)
+BEGIN
+	SELECT * FROM curso
+	WHERE nombre = p_nombre;
+END $$
+
 DROP procedure if exists GetAsignByCarnet $$
 CREATE procedure GetAsignByCarnet (
 	in p_carnet INT
