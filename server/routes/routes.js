@@ -6,9 +6,13 @@ const {
   register,
   resetPassword,
   getInfoUsuario,
+  getAllUsers,
 } = require('../controllers/userController');
 
-const { getCatedratico } = require('../controllers/catedraticoController');
+const {
+  getCatedratico,
+  getAllCatedraticos,
+} = require('../controllers/catedraticoController');
 
 const {
   getPost,
@@ -47,7 +51,11 @@ router.get('/posts/:id', getPost);
 
 router.get('/posts', getAllPosts); // Pedro
 
-router.get('/get-usuario', getInfoUsuario); // Pedro
+router.get('/get-usuario/:carnet', getInfoUsuario); // Pedro
+
+router.get('/user', getAllUsers);
+
+router.get('/catedratico', getAllCatedraticos);
 
 router.get('/comentarios', getComentarios);
 

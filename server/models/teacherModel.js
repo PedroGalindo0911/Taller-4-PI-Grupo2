@@ -1,6 +1,6 @@
 const sequelize = require('../configs/mysqlConnection');
 
-exports.getAllTeachersQuery = async (id) => {
+exports.getAllTeachersQuery = async () => {
   const [results, metadata] = await sequelize.query(
     'CALL GetAllCatedraticos();',
     {
@@ -16,6 +16,17 @@ exports.getCatedraticoByNameQuery = async (nombre) => {
     'CALL GetCatedraticoByName(:nombre);',
     {
       replacements: { nombre },
+    },
+  );
+
+  return results;
+};
+
+exports.getCatedraticoByIdQuery = async (id) => {
+  const [results, metadata] = await sequelize.query(
+    'CALL GetKeyCatedratico(:id);',
+    {
+      replacements: { id },
     },
   );
 

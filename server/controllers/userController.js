@@ -1,10 +1,11 @@
 const data = require('../data/data');
-const { 
-  infoUsuarioQuery, 
-  aprobadosQuery, 
+const {
+  infoUsuarioQuery,
+  aprobadosQuery,
   infoUsuariosQuery,
   crearUsuarioQuery,
-  updatePasswordQuery
+  updatePasswordQuery,
+  getAllUsersQuery,
 } = require('../models/userModel');
 
 exports.login = async (req, res) => {
@@ -15,7 +16,10 @@ exports.login = async (req, res) => {
 
     let user;
     Object.keys(infoUsuarios).forEach((key) => {
-      if (infoUsuarios[key].correo === email && infoUsuarios[key].contrasena === password) {
+      if (
+        infoUsuarios[key].correo === email &&
+        infoUsuarios[key].contrasena === password
+      ) {
         user = infoUsuarios[key];
       }
     });
@@ -69,16 +73,27 @@ exports.resetPassword = async (req, res) => {
   try {
     const { email, registroAcademico, newPassword } = req.body;
 
-    const results = await updatePasswordQuery(email, registroAcademico, newPassword);
+    const results = await updatePasswordQuery(
+      email,
+      registroAcademico,
+      newPassword,
+    );
 
     if (results[0].affectedRows > 0) {
-      console.log('Contraseña restablecida para el usuario con carnet: ', registroAcademico);
+      console.log(
+        'Contraseña restablecida para el usuario con carnet: ',
+        registroAcademico,
+      );
       res.status(200).send('Contraseña restablecida');
     }
 
     if (results[0].affectedRows === 0) {
-      console.log('Usuario no encontrado o se ha ingresado la misma contraseña');
-      res.status(404).send('Usuario no encontrado o se ha ingresado la misma contraseña');
+      console.log(
+        'Usuario no encontrado o se ha ingresado la misma contraseña',
+      );
+      res
+        .status(404)
+        .send('Usuario no encontrado o se ha ingresado la misma contraseña');
     }
   } catch (error) {
     console.log(error);
@@ -87,23 +102,21 @@ exports.resetPassword = async (req, res) => {
 };
 
 exports.getInfoUsuario = async (req, res) => {
-  const { carnet } = req.body;
+  const { carnet } = req.params;
 
   const infoUsuarioQueryResult = await infoUsuarioQuery(carnet);
   const aprobadosQueryResult = await aprobadosQuery(carnet);
 
-  const infoUsuario = infoUsuarioQueryResult["0"];
+  const infoUsuario = infoUsuarioQueryResult['0'];
 
   let listaAprobados = [];
 
   Object.keys(aprobadosQueryResult).forEach((key) => {
-    listaAprobados.push(
-      {
-        id: aprobadosQueryResult[key].id,
-        name: aprobadosQueryResult[key].nombre,
-        credits: aprobadosQueryResult[key].creditos,
-      }
-    );
+    listaAprobados.push({
+      id: aprobadosQueryResult[key].id,
+      name: aprobadosQueryResult[key].nombre,
+      credits: aprobadosQueryResult[key].creditos,
+    });
   });
 
   res.json({
@@ -115,4 +128,21 @@ exports.getInfoUsuario = async (req, res) => {
       approvedCourses: listaAprobados,
     },
   });
-}
+};
+
+exports.getAllUsers = async (req, res) => {
+  const users = await getAllUsersQuery();
+
+  listaUsuarios = [];
+
+  Object.keys(users).forEach((key) => {
+    listaUsuarios.push({
+      id: users[key].carnet,
+      name: users[key].nombres,
+      lastName: users[key].apellidos,
+      email: users[key].correo,
+    });
+  });
+
+  res.json({ users: listaUsuarios });
+};
