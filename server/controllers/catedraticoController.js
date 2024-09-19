@@ -1,22 +1,46 @@
 const data = require('../data/data');
-const { getCatedraticoByNameQuery } = require('../models/teacherModel');
+const {
+  getCatedraticoByNameQuery,
+  getAllTeachersQuery,
+} = require('../models/teacherModel');
 
 exports.getCatedratico = async (req, res) => {
-    try {
-        const { nombre } = req.body;
+  try {
+    const { nombre } = req.body;
 
-        const catedratico = await getCatedraticoByNameQuery(nombre);
+    const catedratico = await getCatedraticoByNameQuery(nombre);
 
-        if (!catedratico) {
-            return res.status(404).json({ mensaje: `Catedrático "${nombre}" no encontrado.` });
-        }
-
-        res.json({
-            mensaje: `Catedrático: ${nombre}`,
-            catedratico
-        });
-    } catch (error) {
-        console.error('Error fetching catedrático:', error);
-        res.status(500).json({ mensaje: 'Error al obtener el catedrático.' });
+    if (!catedratico) {
+      return res
+        .status(404)
+        .json({ mensaje: `Catedrático "${nombre}" no encontrado.` });
     }
+
+    res.json({
+      mensaje: `Catedrático: ${nombre}`,
+      catedratico,
+    });
+  } catch (error) {
+    console.error('Error fetching catedrático:', error);
+    res.status(500).json({ mensaje: 'Error al obtener el catedrático.' });
+  }
+};
+
+exports.getAllCatedraticos = async (req, res) => {
+  try {
+    const catedraticos = await getAllTeachersQuery();
+
+    let listaCatedraticos = [];
+
+    catedraticos.forEach((catedratico) => {
+      listaCatedraticos.push({
+        id: catedratico.id,
+        nombre: catedratico.nombre,
+      });
+    });
+    res.json(listaCatedraticos);
+  } catch (error) {
+    console.error('Error fetching catedráticos:', error);
+    res.status(500).json({ mensaje: 'Error al obtener los catedráticos.' });
+  }
 };

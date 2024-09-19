@@ -1,9 +1,9 @@
 const data = require('../data/data');
 const { getPostsQuery, createPostQuery } = require('../models/postModel');
 
-const { getCatedraticoByNameQuery } = require('../models/teacherModel');
+const { getCatedraticoByIdQuery } = require('../models/teacherModel');
 
-const { getAllCursosQuery } = require('../models/cursoModel');
+const { getCursosByIdQuery } = require('../models/cursoModel');
 
 const {
   filtrarPostsPorCatedraticoQuery,
@@ -19,47 +19,60 @@ exports.getPost = (req, res) => {
 exports.getAllPosts = async (req, res) => {
   const posts = await getPostsQuery();
 
-  res.json(posts);
-};
+  listaPosts = [];
 
-exports.createPost = async (req, res) => {
-  const { title, content, course, teacher, userId } = req.body;
-
-  const catedraticoQueryResult = await getCatedraticoByNameQuery(teacher);
-
-  const idCatedratico = catedraticoQueryResult.id;
-
-  const cursosQueryResult = await getAllCursosQuery();
-
-  listaCursos = [];
-
-  Object.keys(cursosQueryResult).forEach((key) => {
-    listaCursos.push({
-      nombre: cursosQueryResult[key].nombre,
-      id: cursosQueryResult[key].id,
+  Object.keys(posts).forEach((key) => {
+    listaPosts.push({
+      id: posts[key].id,
+      title: posts[key].titulo,
+      content: posts[key].mensaje,
+      course: posts[key].cur_id,
+      teacher: posts[key].cat_id,
+      userId: posts[key].usu_carnet,
     });
   });
 
-  const curso = listaCursos.find((curso) => curso.nombre === course);
+  res.json(listaPosts);
+};
 
-  const createPostQueryResult = await createPostQuery(
-    title,
-    content,
-    curso.id,
-    idCatedratico,
-    userId,
-  );
+exports.createPost = async (req, res) => {
+  const { title, content, courseId, teacherId, userId } = req.body;
 
-  res.json({
-    mensaje: 'Publicación creada',
-  });
-  console.log({
-    title,
-    content,
-    course,
-    teacher,
-    userId,
-  });
+  const catedraticoQueryResult = await getCatedraticoByIdQuery(teacherId);
+  const cursosQueryResult = await getCursosByIdQuery(courseId);
+  try {
+    if (catedraticoQueryResult && cursosQueryResult) {
+      const createPostQueryResult = await createPostQuery(
+        title,
+        content,
+        courseId,
+        teacherId,
+        userId,
+      );
+
+      res.json({
+        mensaje: 'Publicación creada',
+      });
+      console.log({
+        title,
+        content,
+        course: {
+          id: cursosQueryResult.id,
+          name: cursosQueryResult.nombre,
+        },
+        teacher: {
+          id: catedraticoQueryResult.id,
+          name: catedraticoQueryResult.nombre,
+        },
+        userId,
+      });
+    }
+  } catch (error) {
+    console.error('Error al crear el post:', error);
+    res.json({
+      mensaje: 'Error al crear el post',
+    });
+  }
 };
 
 exports.filtrarPostsCatedratico = async (req, res) => {
